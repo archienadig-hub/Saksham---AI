@@ -1,0 +1,210 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SAKSHAM AI | Inclusive Learning</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 24px;
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            color: #172554;
+            line-height: 1.6;
+            transition: 0.2s;
+        }
+
+        header {
+            max-width: 900px;
+            margin: auto;
+            padding: 28px;
+            border-radius: 16px;
+            background: #173b70;
+            color: white;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 24px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 24px;
+            margin-bottom: 20px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px #00000010;
+        }
+
+        button, input, select {
+            font: inherit;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 7px;
+        }
+
+        button {
+            background: #173b70;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:focus, input:focus, select:focus {
+            outline: 3px solid orange;
+        }
+
+        input {
+            width: min(100%, 450px);
+        }
+
+        .contrast {
+            background: black;
+            color: yellow;
+        }
+
+        .contrast .card {
+            background: #111;
+            color: yellow;
+            border: 2px solid yellow;
+        }
+
+        .contrast header,
+        .contrast button {
+            background: #222;
+            color: yellow;
+            border: 1px solid yellow;
+        }
+
+        #answer {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>SAKSHAM AI</h1>
+        <h2>Inclusive Learning. Equal Opportunities.</h2>
+        <p>Accessible education and skill development for everyone.</p>
+    </header>
+
+    <main>
+
+        <section class="card">
+            <h2>Accessibility Centre</h2>
+
+            <button onclick="changeText(2)">Increase Text</button>
+            <button onclick="changeText(-2)">Decrease Text</button>
+            <button onclick="toggleContrast()">High Contrast</button>
+            <button onclick="readPage()">Read Aloud</button>
+        </section>
+
+        <section class="card">
+            <h2>Learning Assistant</h2>
+
+            <label for="topic">What would you like to learn?</label>
+            <br>
+
+            <input id="topic" placeholder="Try Photosynthesis">
+
+            <button onclick="explainTopic()">Explain</button>
+
+            <p id="answer" aria-live="polite">
+                Your explanation will appear here.
+            </p>
+        </section>
+
+        <section class="card">
+            <h2>Learning Resources</h2>
+
+            <label for="subject">Select a subject:</label>
+
+            <select id="subject" onchange="showSubject()">
+                <option>Science</option>
+                <option>Mathematics</option>
+                <option>English</option>
+                <option>Computer Science</option>
+            </select>
+
+            <p id="subjectMessage">
+                Select a subject to begin.
+            </p>
+        </section>
+
+    </main>
+
+    <script>
+        let fontSize = 16;
+
+        function changeText(change) {
+            fontSize = Math.max(12, Math.min(28, fontSize + change));
+            document.body.style.fontSize = fontSize + "px";
+        }
+
+        function toggleContrast() {
+            document.body.classList.toggle("contrast");
+        }
+
+        function readPage() {
+            if (!("speechSynthesis" in window)) {
+                alert("Speech is not supported by this browser.");
+                return;
+            }
+
+            speechSynthesis.cancel();
+
+            const speech = new SpeechSynthesisUtterance(
+                document.querySelector("main").innerText
+            );
+
+            speechSynthesis.speak(speech);
+        }
+
+        function explainTopic() {
+            const topic = document.getElementById("topic")
+                .value.trim().toLowerCase();
+
+            const explanations = {
+                "photosynthesis":
+                    "Photosynthesis is the process by which green plants use sunlight, water and carbon dioxide to make food. Oxygen is released during this process.",
+
+                "gravity":
+                    "Gravity is the force of attraction between objects that have mass. Earth's gravity pulls objects towards its centre.",
+
+                "fractions":
+                    "A fraction represents part of a whole. In 3/4, we have three of four equal parts.",
+
+                "electricity":
+                    "Electricity involves electric charges. In a simple circuit, a battery can drive electric current through a conducting path."
+            };
+
+            const answer = explanations[topic];
+
+            document.getElementById("answer").textContent =
+                answer ||
+                "This is an initial prototype with a limited set of explanations. A future version can connect to an AI service for broader educational support.";
+        }
+
+        function showSubject() {
+            const subject = document.getElementById("subject").value;
+
+            document.getElementById("subjectMessage").textContent =
+                "You selected " + subject +
+                ". Learning materials will be added here.";
+        }
+    </script>
+
+</body>
+</html>
+```
+
